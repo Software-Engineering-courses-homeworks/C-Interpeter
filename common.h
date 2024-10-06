@@ -1,4 +1,4 @@
-#ifndef clox_commonm_h
+#ifndef clox_common_h
 #define clox_common_h
 
 #include <stdbool.h>
