@@ -10,4 +10,11 @@
 //a macro to free the allocated memory
 #define FREE_ARRAY(type, pointer, oldcount)  reallocate(pointer, sizeof(type) * (oldcount), 0)
 
+/// @brief 
+/// @param pointer 
+/// @param oldSize 
+/// @param newSize 
+/// @return 
+void* reallocate(void* pointer, size_t oldSize, size_t newSize);
+
 #endif

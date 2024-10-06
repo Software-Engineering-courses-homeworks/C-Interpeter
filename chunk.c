@@ -29,3 +29,11 @@ void writeChunk(Chunk* chunk, uint8_t byte)
     chunk->code[chunk->count] = byte;
     chunk->count++;
 }
+
+/// @brief frees the previous array and reinitializes the chunk
+/// @param chunk 
+void freeChunk(Chunk* chunk)
+{
+    FREE_ARRAY(uint8_t, chunk->code, chunk->count);
+    initChunk(chunk);
+}
