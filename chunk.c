@@ -13,9 +13,19 @@ void initChunk(Chunk* chunk)
 }
 
 /// @brief writes a value to a chunk
-/// @param chunk 
-/// @param byte 
+/// @param chunk - a pointer to a chunk struct
+/// @param byte  - a byte that get appended to the end of the chunk
 void writeChunk(Chunk* chunk, uint8_t byte)
 {
+    //checks if the current array already has capacity for the new byte
+    //incase there isn't enough capacity, we grow the array to make room
+    if(chunk->capacity <chunk->count+1)
+    {
+        int oldCapacity = chunk->capacity;
+        chunk->capacity = GROW_CAPACITY(oldCapacity);
+        chunk->code = GROW_ARRAY(unit8_t, chunk->code, oldCapacity, chunk->capacity);
+    }
 
+    chunk->code[chunk->count] = byte;
+    chunk->count++;
 }
