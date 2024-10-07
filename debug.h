@@ -14,4 +14,6 @@ void disassembleChunk(Chunk* chunk, const char* name);
 /// @return 
 int disassembleInstruction(Chunk* chunk, int offest);
 
+static int simpleInstruction(const char* name, int offset);
+
 #endif

@@ -36,7 +36,7 @@ int disassembleInstruction(Chunk* chunk, int offset)
 /// @param name 
 /// @param offset 
 /// @return 
-int simpleInstruction(const char* name, int offset)
+static int simpleInstruction(const char* name, int offset)
 {
     printf("%s\n",name);
     return offset + 1;
