@@ -30,4 +30,8 @@ void freeValueArray(ValueArray* arr);
 /// @param value
 void writeValueArray(ValueArray* arr, Value value);
 
+/// @brief prints the value
+/// @param value 
+void printValue(Value value);
+
 #endif //VALUE_H
