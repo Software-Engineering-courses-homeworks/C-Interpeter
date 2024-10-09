@@ -39,3 +39,8 @@ void freeChunk(Chunk* chunk)
     freeValueArray(&chunk->constants);
     initChunk(chunk);
 }
+
+int addConstant(Chunk* chunk, Value value) {
+    writeValueArray(&chunk->constants, value);
+    return chunk->constants.count - 1;
+}

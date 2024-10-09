@@ -33,5 +33,6 @@ void freeChunk(Chunk* chunk);
 /// adds a constant to the constant pool via discrete function for orderly operation
 /// @param chunk
 /// @param value
-void addConstant(Chunk* chunk, Value value);
+/// @returns the index of the appended constant in the pool
+int addConstant(Chunk* chunk, Value value);
 #endif
