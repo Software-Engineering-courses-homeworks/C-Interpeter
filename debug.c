@@ -6,7 +6,7 @@
 /// @param name - the name of the chunk
 void disassembleChunk(Chunk* chunk, const char* name)
 {
-    printf("== %s ==", name);
+    printf("== %s ==\n", name);
 
     for(int offset = 0; offset < chunk->count;)
     {
