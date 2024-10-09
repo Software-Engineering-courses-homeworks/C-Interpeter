@@ -26,15 +26,20 @@ void writeChunk(Chunk* chunk, uint8_t byte, int line)
         int oldCapacity = chunk->capacity;
         chunk->capacity = GROW_CAPACITY(oldCapacity);
         chunk->code = GROW_ARRAY(uint8_t, chunk->code, oldCapacity, chunk->capacity);
-        chunk->lines = GROW_ARRAY(int, chunk->lines, oldCapacity, chunk->capacity);
+        //chunk->lines = GROW_ARRAY(int, chunk->lines, oldCapacity, chunk->capacity);
     }
 
     chunk->code[chunk->count] = byte;
-    chunk->lines[chunk->count] = line;
+    //chunk->lines[chunk->count] = line;
+    /* todo: add a last line added index to track new lines and a line counter
+     * todo: create the encoding check and encoder
+     * check if the previous instruction has the same line, if so increment the saved line by 1
+     * else, save the line multiplied by 100 +1 in the array
+     */
     chunk->count++;
 }
 
-/// @brief frees the previous array and reinitializes the chunk
+/// @brief frees the previous array and reinitialize the chunk
 /// @param chunk 
 void freeChunk(Chunk* chunk)
 {
@@ -51,4 +56,9 @@ void freeChunk(Chunk* chunk)
 int addConstant(Chunk* chunk, Value value) {
     writeValueArray(&chunk->constants, value);
     return chunk->constants.count - 1;
+}
+
+int getLine(Chunk* chunk, int offset)
+{
+
 }

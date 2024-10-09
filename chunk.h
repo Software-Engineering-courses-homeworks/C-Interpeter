@@ -7,7 +7,8 @@
 //The instruction will mean “return from the current function”.
 typedef enum {
   OP_RETURN,
-  OP_CONSTANT
+  OP_CONSTANT,
+  OP_CONSTANT_LONG
 } OpCode;
 
 //wrapper around an array of bytes
@@ -38,4 +39,10 @@ void freeChunk(Chunk* chunk);
 /// @param value
 /// @returns the index of the appended constant in the pool
 int addConstant(Chunk* chunk, Value value);
+
+/// the function decodes the line from the RLE compression
+/// @param chunk the bytecode chunk
+/// @param index the index of the offending instruction
+/// @return returns the line of the offending instruction
+int getLine(Chunk* chunk, int index);
 #endif
