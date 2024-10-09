@@ -35,3 +35,10 @@ void freeValueArray(ValueArray* array)
     FREE_ARRAY(Value, array->values, array->capacity);
     initValueArray(array);
 }
+
+/// @brief prints the value
+/// @param value 
+void printValue(Value value)
+{
+    print("%g",value);
+}
