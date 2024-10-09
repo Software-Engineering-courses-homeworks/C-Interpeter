@@ -7,6 +7,7 @@
 //The instruction will mean “return from the current function”.
 typedef enum {
   OP_RETURN,
+  OP_CONSTANT
 } OpCode;
 
 //wrapper around an array of bytes

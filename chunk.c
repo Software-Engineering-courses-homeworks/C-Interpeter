@@ -40,6 +40,10 @@ void freeChunk(Chunk* chunk)
     initChunk(chunk);
 }
 
+/// adds a constant to the constant pool via discrete function for orderly operation
+/// @param chunk
+/// @param value
+/// @returns the index of the appended constant in the pool
 int addConstant(Chunk* chunk, Value value) {
     writeValueArray(&chunk->constants, value);
     return chunk->constants.count - 1;
