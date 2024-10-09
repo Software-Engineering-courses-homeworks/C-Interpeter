@@ -10,6 +10,7 @@ void initChunk(Chunk* chunk)
     chunk->count = 0;
     chunk->capacity = 0;
     chunk->code = NULL;
+    initValueArray(&chunk->constants);
 }
 
 /// @brief writes a value to a chunk
@@ -35,5 +36,6 @@ void writeChunk(Chunk* chunk, uint8_t byte)
 void freeChunk(Chunk* chunk)
 {
     FREE_ARRAY(uint8_t, chunk->code, chunk->count);
+    freeValueArray(&chunk->constants);
     initChunk(chunk);
 }

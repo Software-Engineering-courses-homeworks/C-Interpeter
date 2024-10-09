@@ -2,6 +2,7 @@
 #define clox_chunk_h
 
 #include "common.h"
+#include "value.h"
 
 //The instruction will mean “return from the current function”.
 typedef enum {
@@ -13,6 +14,7 @@ typedef struct {
   int count;
   int capacity;
   uint8_t* code;
+  ValueArray constants;
 } Chunk;
 
 /// @brief 
@@ -27,4 +29,9 @@ void writeChunk(Chunk* chunk, uint8_t byte);
 /// @brief 
 /// @param chunk 
 void freeChunk(Chunk* chunk);
+
+/// adds a constant to the constant pool via discrete function for orderly operation
+/// @param chunk
+/// @param value
+void addConstant(Chunk* chunk, Value value);
 #endif
