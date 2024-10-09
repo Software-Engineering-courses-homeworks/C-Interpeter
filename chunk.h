@@ -15,6 +15,7 @@ typedef struct {
   int count;
   int capacity;
   uint8_t* code;
+  int* lines;
   ValueArray constants;
 } Chunk;
 
@@ -25,7 +26,8 @@ void initChunk(Chunk* chunk);
 /// @brief 
 /// @param chunk 
 /// @param byte 
-void writeChunk(Chunk* chunk, uint8_t byte);
+/// @param line
+void writeChunk(Chunk* chunk, uint8_t byte, int line);
 
 /// @brief 
 /// @param chunk 
