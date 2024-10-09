@@ -13,4 +13,5 @@ add_executable(C_Interpeter
     debug.h
     main.c
     memory.c
-    memory.h)
+    memory.h
+        value.h)
