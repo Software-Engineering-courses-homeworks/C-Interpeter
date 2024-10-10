@@ -41,6 +41,22 @@ int disassembleInstruction(Chunk* chunk, int offset)
     }
 }
 
+/// the function decodes the line from the RLE compression
+/// @param chunk the bytecode chunk
+/// @param offset the index of the offending instruction
+/// @return returns the line of the offending instruction
+int getLine(Chunk* chunk, int offset)
+{
+    int currentLine = 0;
+
+    for(int i = 0; i < offset; i++)
+    {
+        if(chunk->lines[currentLine] % 100 == 0)
+            currentLine++;
+    }
+    return chunk->lines[currentLine] / 100;
+}
+
 /// @brief outputs the simple instruction for debugging
 /// @param name 
 /// @param offset 

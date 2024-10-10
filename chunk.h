@@ -15,6 +15,8 @@ typedef enum {
 typedef struct {
   int count;
   int capacity;
+  int lineCount;
+  int lineCapacity;
   uint8_t* code;
   int* lines;
   ValueArray constants;
@@ -39,10 +41,4 @@ void freeChunk(Chunk* chunk);
 /// @param value
 /// @returns the index of the appended constant in the pool
 int addConstant(Chunk* chunk, Value value);
-
-/// the function decodes the line from the RLE compression
-/// @param chunk the bytecode chunk
-/// @param index the index of the offending instruction
-/// @return returns the line of the offending instruction
-int getLine(Chunk* chunk, int index);
 #endif
