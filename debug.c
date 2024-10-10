@@ -48,11 +48,22 @@ int disassembleInstruction(Chunk* chunk, int offset)
 int getLine(Chunk* chunk, int offset)
 {
     int currentLine = 0;
+    int tempLine = chunk->lines[currentLine];
 
+    //iterates through the lines and decreases the saved line value until we pass all the instructions in a line
+    //then passes on to the next line and repeats the process up to the offending instruction
     for(int i = 0; i < offset; i++)
     {
-        if(chunk->lines[currentLine] % 100 == 0)
+        //checks if arrived at the last instruction (i.e. the first instruction added to the line)
+        //and if so, moves on to the next line
+        if(tempLine % 100 == 0)
+        {
             currentLine++;
+            tempLine = chunk->lines[currentLine];
+        }
+        //else, decrements the encoded instruction count in the line value
+        else
+            tempLine--;
     }
     return chunk->lines[currentLine] / 100;
 }
