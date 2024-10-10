@@ -9,6 +9,8 @@ void initChunk(Chunk* chunk)
     //initializes the struct values to be those of an empty, uninitialized array
     chunk->count = 0;
     chunk->capacity = 0;
+    chunk->lineCount = 0;
+    chunk->lineCapacity = 0;
     chunk->code = NULL;
     chunk->lines = NULL;
     initValueArray(&chunk->constants);
@@ -26,17 +28,31 @@ void writeChunk(Chunk* chunk, uint8_t byte, int line)
         int oldCapacity = chunk->capacity;
         chunk->capacity = GROW_CAPACITY(oldCapacity);
         chunk->code = GROW_ARRAY(uint8_t, chunk->code, oldCapacity, chunk->capacity);
-        //chunk->lines = GROW_ARRAY(int, chunk->lines, oldCapacity, chunk->capacity);
+    }
+
+    //check if the previous instruction has the same line, if so increment the saved line by 1
+    //else, if the array size needs to be increased, increase it then add the new line
+    if(line == chunk->lines[chunk->lineCount]/100)
+    {
+        chunk->lines[chunk->lineCount]++;
+    }
+    else
+    {
+        //increases the array size using the same memory macros we use for the chunk array
+        if(chunk->lineCapacity < chunk->lineCount + 1)
+        {
+            int oldLineCapacity = chunk->lineCapacity;
+            chunk->lineCapacity = GROW_CAPACITY(oldLineCapacity);
+            chunk->lines = GROW_ARRAY(int, chunk->lines, oldLineCapacity, chunk->lineCapacity);
+        }
+
+        //adds the new line to the end of the array
+        chunk->lines[chunk->lineCount] = line * 100;
     }
 
     chunk->code[chunk->count] = byte;
-    //chunk->lines[chunk->count] = line;
-    /* todo: add a last line added index to track new lines and a line counter
-     * todo: create the encoding check and encoder
-     * check if the previous instruction has the same line, if so increment the saved line by 1
-     * else, save the line multiplied by 100 +1 in the array
-     */
     chunk->count++;
+    chunk->lineCount++;
 }
 
 /// @brief frees the previous array and reinitialize the chunk
@@ -53,12 +69,8 @@ void freeChunk(Chunk* chunk)
 /// @param chunk
 /// @param value
 /// @returns the index of the appended constant in the pool
-int addConstant(Chunk* chunk, Value value) {
+int addConstant(Chunk* chunk, Value value)
+{
     writeValueArray(&chunk->constants, value);
     return chunk->constants.count - 1;
-}
-
-int getLine(Chunk* chunk, int offset)
-{
-
 }
