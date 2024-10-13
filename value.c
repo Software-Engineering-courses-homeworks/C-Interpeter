@@ -3,9 +3,9 @@
 #include "memory.h"
 #include "value.h"
 
-/// @brief the function initalizes the array of values
+/// @brief the function initializes the array of values
 /// @param array 
-void initValueArray(ValueArray*array){
+void initValueArray(ValueArray* array){
     array->values = NULL;
     array->capacity = 0;
     array->count = 0;

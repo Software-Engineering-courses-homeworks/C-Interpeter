@@ -19,6 +19,7 @@ void initChunk(Chunk* chunk)
 /// @brief writes a value to a chunk
 /// @param chunk - a pointer to a chunk struct
 /// @param byte  - a byte that gets appended to the end of the chunk
+/// @param line - represents the instruction's line
 void writeChunk(Chunk* chunk, uint8_t byte, int line)
 {
     //checks if the current array already has capacity for the new byte
@@ -73,4 +74,28 @@ int addConstant(Chunk* chunk, Value value)
 {
     writeValueArray(&chunk->constants, value);
     return chunk->constants.count - 1;
+}
+
+void writeConstant(Chunk* chunk, Value value, int line)
+{
+    //adds the value to the constant pool and saves the index
+    int constant = addConstant(chunk,value);
+
+    //checks which instruction needs to be used for the constant to save memory while it can
+    //by checking if the returned index can fit in a uint_8 and if so, add it using the OP_CONSTANT opcode
+    if(constant <= UINT8_MAX)
+    {
+        writeChunk(chunk, OP_CONSTANT, line);
+        writeChunk(chunk,constant, line);
+    }
+    //if the constant can't fit in a uint8_t, add it to the chunk using the OP_CONSTANT_LONG opcode
+    else
+    {
+        //writes the instruction opcode to the chunk
+        writeChunk(chunk, OP_CONSTANT_LONG, line);
+        //splits the constant index into 3 bytes and writes them in a little endian style
+        writeChunk(chunk, constant, line);
+        writeChunk(chunk, constant >> 8, line);
+        writeChunk(chunk, constant >> 16, line);
+    }
 }

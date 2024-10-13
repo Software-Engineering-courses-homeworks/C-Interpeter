@@ -17,6 +17,7 @@ typedef struct {
   int capacity;
   int lineCount;
   int lineCapacity;
+
   uint8_t* code;
   int* lines;
   ValueArray constants;
@@ -41,4 +42,10 @@ void freeChunk(Chunk* chunk);
 /// @param value
 /// @returns the index of the appended constant in the pool
 int addConstant(Chunk* chunk, Value value);
+
+/// 
+/// @param chunk 
+/// @param value 
+/// @param line 
+void writeConstant(Chunk* chunk, Value value, int line);
 #endif

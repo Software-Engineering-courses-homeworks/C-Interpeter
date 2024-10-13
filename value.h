@@ -18,17 +18,17 @@ typedef struct {
 } ValueArray;
 
 ///initializes a wrapper ValueArray for the interpeter
-/// @param arr
-void initValueArray(ValueArray* arr);
+/// @param array
+void initValueArray(ValueArray* array);
 
 ///frees the values in the ValueArray
-/// @param arr
-void freeValueArray(ValueArray* arr);
+/// @param array
+void freeValueArray(ValueArray* array);
 
 /// adds a value to a ValueArray
-/// @param arr
+/// @param array
 /// @param value
-void writeValueArray(ValueArray* arr, Value value);
+void writeValueArray(ValueArray* array, Value value);
 
 /// @brief prints the value
 /// @param value 

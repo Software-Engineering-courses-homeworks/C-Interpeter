@@ -35,6 +35,8 @@ int disassembleInstruction(Chunk* chunk, int offset)
             return constantInstruction("OP_CONSTANT", chunk, offset);
         case OP_RETURN:
             return simpleInstruction("OP_RETURN", offset);
+        case OP_CONSTANT_LONG:
+            return constantLongInstruction("OP_CONSTANT_LONG", chunk, offset);
         default:
             printf("Unknown opcode %d\n", instruction);
             return offset + 1;
@@ -68,16 +70,21 @@ int getLine(Chunk* chunk, int offset)
     return chunk->lines[currentLine] / 100;
 }
 
-/// @brief outputs the simple instruction for debugging
-/// @param name 
-/// @param offset 
-/// @return 
+///
+/// @param name name of the opcode
+/// @param offset the instruction index
+/// @return the new instruction index
 static int simpleInstruction(const char* name, int offset)
 {
     printf("%s\n",name);
     return offset + 1;
 }
 
+///
+/// @param name name of the opcode
+/// @param chunk a pointer to the bytecode chunk
+/// @param offset the instruction index
+/// @return the new instruction index
 static int constantInstruction(const char* name, Chunk* chunk, int offset)
 {
     uint8_t constant = chunk->code[offset + 1];
@@ -85,4 +92,18 @@ static int constantInstruction(const char* name, Chunk* chunk, int offset)
     printValue(chunk->constants.values[constant]);
     printf("'\n");
     return offset + 2;
+}
+
+///
+/// @param name name of the operation
+/// @param chunk the bytecode chunk
+/// @param offset the index of the bytecode chunk array
+/// @return the new offset after teh operation execution
+static int constantLongInstruction(const char* name, Chunk* chunk, int offset)
+{
+    uint32_t constant = (uint32_t)chunk->code[offset + 3] << 16 | (uint16_t)chunk->code[offset + 2] << 8 | chunk->code[offset + 1];
+    printf("%-16s %4d '", name, constant);
+    printValue(chunk->constants.values[constant]);
+    printf("'\n");
+    return offset + 4;
 }
