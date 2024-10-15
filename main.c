@@ -1,9 +1,13 @@
 #include "chunk.h"
 #include "common.h"
 #include "debug.h"
+#include "vm.h"
 
 int main(int argc, const char* argv[])
 {
+    //initializes the VM before injecting the code
+    initVM();
+
     Chunk chunk;
     initChunk(&chunk);
 
@@ -13,6 +17,10 @@ int main(int argc, const char* argv[])
 
     writeChunk(&chunk, OP_RETURN, 123);
     disassembleChunk(&chunk, "test_chunk");
+
+    interpret(&chunk);
+    //frees all allocated memory
+    freeVM();
     freeChunk(&chunk);
 
 }
