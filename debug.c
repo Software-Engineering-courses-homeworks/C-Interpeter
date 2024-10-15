@@ -26,7 +26,7 @@ int disassembleInstruction(Chunk* chunk, int offset)
     if(offset > 0 && chunk->lines[offset] == chunk->lines[offset - 1])
         printf("    | ");
     else
-        printf("%4d ", chunk->lines[offset]);
+        printf("%4d ", getLine(chunk, offset));
 
 
     uint8_t instruction = chunk->code[offset];
@@ -49,8 +49,8 @@ int disassembleInstruction(Chunk* chunk, int offset)
 /// @return returns the line of the offending instruction
 int getLine(Chunk* chunk, int offset)
 {
-    int currentLine = 0;
-    int tempLine = chunk->lines[currentLine];
+    int index = 0;
+    int tempLine = chunk->lines[index];
 
     //iterates through the lines and decreases the saved line value until we pass all the instructions in a line
     //then passes on to the next line and repeats the process up to the offending instruction
@@ -60,14 +60,14 @@ int getLine(Chunk* chunk, int offset)
         //and if so, moves on to the next line
         if(tempLine % 100 == 0)
         {
-            currentLine++;
-            tempLine = chunk->lines[currentLine];
+            index++;
+            tempLine = chunk->lines[index];
         }
         //else, decrements the encoded instruction count in the line value
         else
             tempLine--;
     }
-    return chunk->lines[currentLine] / 100;
+    return chunk->lines[index] / 100;
 }
 
 ///
