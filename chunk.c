@@ -33,9 +33,9 @@ void writeChunk(Chunk* chunk, uint8_t byte, int line)
 
     //check if the previous instruction has the same line, if so increment the saved line by 1
     //else, if the array size needs to be increased, increase it then add the new line
-    if(line == chunk->lines[chunk->lineCount]/100)
+    if(line == chunk->lines[chunk->lineCount-1]/100)
     {
-        chunk->lines[chunk->lineCount]++;
+        chunk->lines[chunk->lineCount-1]++;
     }
     else
     {
@@ -49,11 +49,11 @@ void writeChunk(Chunk* chunk, uint8_t byte, int line)
 
         //adds the new line to the end of the array
         chunk->lines[chunk->lineCount] = line * 100;
+        chunk->lineCount++;
     }
 
     chunk->code[chunk->count] = byte;
     chunk->count++;
-    chunk->lineCount++;
 }
 
 /// @brief frees the previous array and reinitialize the chunk
