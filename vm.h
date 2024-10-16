@@ -1,7 +1,3 @@
-//
-// Created by ishay on 15/10/2024.
-//
-
 #ifndef CLOX_VM_H
 #define CLOX_VM_H
 
@@ -9,6 +5,7 @@
 
 typedef struct {
     Chunk* chunk;
+    uint8_t* ip;
 } VM;
 
 typedef enum {
@@ -17,13 +14,15 @@ typedef enum {
     INTERPRET_RUNTIME_ERROR
 } InterpretResult;
 
+/// initializes the VM
 void initVM();
 
+/// frees the VM
 void freeVM();
 
-/// interpets a given chunk to the VM and returns the interpreted result
+/// interprets a given chunk to the VM and returns the interpreted result
 /// @param chunk
-/// @return
+/// @return the interpreted result of the given chunk
 InterpretResult interpret(Chunk* chunk);
 
 #endif //CLOX_VM_H
