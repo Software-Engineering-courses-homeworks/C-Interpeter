@@ -1,7 +1,3 @@
-//
-// Created by ishay on 09/10/2024.
-//
-
 #ifndef VALUE_H
 #define VALUE_H
 
@@ -17,7 +13,7 @@ typedef struct {
     Value* values;
 } ValueArray;
 
-///initializes a wrapper ValueArray for the interpeter
+///initializes a wrapper ValueArray for the interpreter
 /// @param array
 void initValueArray(ValueArray* array);
 
