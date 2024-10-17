@@ -22,6 +22,7 @@ static InterpretResult run()
 {
 #define READ_BYTE() (*vm.ip++)
 #define READ_CONSTANT() (vm.chunk->constants.values[READ_BYTE()])
+#define READ_CONSTANT_LONG(arr)  (vm.chunk->constants.values[(uint32_t)arr[2] << 16 | (uint16_t)arr[1] << 8 | arr[0]])
 #ifdef DEBUG_TRACE_EXECUTION
     disassembleInstruction(vm.chunk, (int)(vm.ip-vm.chunk->code));
 #endif
@@ -46,10 +47,15 @@ static InterpretResult run()
                 break;
             }
             //todo: complete implementing the long constant with the accompanying macro and assmbly
-            // case OP_CONSTANT_LONG:
-            // {
-            //     uint32_t constant = (uint32_t)READ_CONSTANT() << 16 | (uint16_t)READ_CONSTANT() << 8 | READ_CONSTANT();
-            // }
+            case OP_CONSTANT_LONG:
+            {
+                //uint32_t constant = READ_CONSTANT_LONG();
+                uint8_t arr[] = {READ_BYTE(), READ_BYTE(), READ_BYTE()};
+                Value constant = READ_CONSTANT_LONG(arr);
+                printValue(constant);
+                printf("'\n");
+                break;
+            }
         }
     }
 #undef READ_BYTE
