@@ -119,6 +119,8 @@ static void skipWhiteSpaces() {
     }
 }
 
+/// the function makes a new token for the next number that appears
+/// @return a new token for number
 static Token number() {
     while (isDigit(peek())) advance();
 
