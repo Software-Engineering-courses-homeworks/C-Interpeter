@@ -48,9 +48,39 @@ static Token errorToken(const char* message) {
     return token;
 }
 
+/// a mini scanner to skip all the whitespaces and new lines with the appropriate updates
+static void skipWhiteSpaces() {
+    for(;;) {
+        char c = peek();
+
+        switch (c) {
+            case ' ':
+            case '\r':
+            case '\t':
+                advance();
+                break;
+            case '\n':
+                scanner.line++;
+                advance();
+                break;
+            case '/':
+                if(peekNext() == '/') {
+                    //runs until the end of the comment line
+                    while(peek() != '\n' && !isAtEnd()) advance()
+                }
+                else
+                    return;
+                break;
+            default:
+                return;
+        }
+    }
+}
+
 /// scans the current token
 /// @return returns a token that represent the state of the current char in the scanner.
 Token scanToken() {
+    skipWhiteSpaces();
     scanner.start = scanner.current;
 
     if(isAtEnd()) return makeToken(TOKEN_EOF);
