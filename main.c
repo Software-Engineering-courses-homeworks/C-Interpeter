@@ -12,7 +12,7 @@ static void repl() {
 
     for(;;) {
         printf("> ");
-
+        //go down a line if we read an entire line
         if(!fgets(line, sizeof(line), stdin)) {
             printf("\n");
             break;
@@ -24,7 +24,7 @@ static void repl() {
 
 /// 
 /// @param path 
-/// @return 
+/// @return the content of the file
 static char* readFile(const char* path) {
     FILE* file = fopen(path, "rb");
 
@@ -32,7 +32,7 @@ static char* readFile(const char* path) {
         fprintf(stderr, "Could not open file %s\n", path);
         exit(74);
     }
-
+    //goes to the end of the file
     fseek(file, 0L, SEEK_END);
     size_t fileSize = ftell(file);
     rewind(file);
@@ -59,7 +59,7 @@ static char* readFile(const char* path) {
 
 /// 
 /// @param path 
-/// @return 
+/// @return will returns exit code if there will be errors (65-for compilation error, 70-for runtime error)
 static char* runFile(const char* path) {
     char* source = readFile(path);
     InterpretResult result = interpret(source);
