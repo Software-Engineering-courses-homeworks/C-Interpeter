@@ -27,8 +27,8 @@ void freeVM();
 
 /// interprets a given chunk to the VM and returns the interpreted result
 /// @param chunk
-/// @return the interpreted result of the given chunk
-InterpretResult interpret(Chunk* chunk);
+/// @return the interpreted result of the given chunk(need to change)
+InterpretResult interpret(const char* source);
 
 /// pushes a value onto the VM stack
 /// @param val the value that needs to be pushed

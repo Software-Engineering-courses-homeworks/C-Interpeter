@@ -1,6 +1,7 @@
 #include "common.h"
 #include "vm.h"
 #include "debug.h"
+#include "compiler.h"
 
 VM vm;
 
@@ -111,15 +112,10 @@ static InterpretResult run()
 
 /// interprets a given chunk to the VM and returns the interpreted result
 /// @param chunk
-/// @return the interpreted result of the given chunk
-InterpretResult interpret(Chunk* chunk)
+/// @return the interpreted result of the given chunk(Need to change)
+InterpretResult interpret(const char* source)
 {
-    //gives the VM the chunk we want to execute
-    vm.chunk = chunk;
-    //stores the latest instruction in the chunk that needs to be processed
-    vm.ip = vm.chunk->code;
-
-    //returns the interpreted result of running the chunk
-    return run();
+    compile(source);
+    return INTERPRET_OK;
 }
 
