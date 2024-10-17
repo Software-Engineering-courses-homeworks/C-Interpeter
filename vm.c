@@ -35,10 +35,12 @@ static InterpretResult run()
         //the switch is used to dispatch the instructions in the most simple way
         switch(instruction = READ_BYTE())
         {
+            //case for a runtime result that completed without anyprolem
             case OP_RETURN:
             {
                 return INTERPRET_OK;
             }
+            //case for a constant value. prints the value
             case OP_CONSTANT:
             {
                 Value constant = READ_CONSTANT();
@@ -46,7 +48,7 @@ static InterpretResult run()
                 printf("\n");
                 break;
             }
-            //todo: complete implementing the long constant with the accompanying macro and assmbly
+            //the case handles the long values, creates an array of the bytes and then build it as a value
             case OP_CONSTANT_LONG:
             {
                 //uint32_t constant = READ_CONSTANT_LONG();
