@@ -61,6 +61,7 @@ static InterpretResult run()
         switch(instruction = READ_BYTE())
         {
             //case for a runtime result that pops the stacks.
+            case OP_RETURN:
             {
                 printValue(pop());
                 printf("\n");
