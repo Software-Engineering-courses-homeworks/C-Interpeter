@@ -42,6 +42,13 @@ static InterpretResult run()
 #define READ_CONSTANT() (vm.chunk->constants.values[READ_BYTE()])
 #define READ_CONSTANT_LONG(arr)  (vm.chunk->constants.values[(uint32_t)arr[2] << 16 | (uint16_t)arr[1] << 8 | arr[0]])
 #ifdef DEBUG_TRACE_EXECUTION
+    printf("          ");
+    for (Value* slot = vm.stack; slot<vm.stackTop;slot++) {
+        printf("[ ");
+        printValue(*slot);
+        printf(" ]");
+    }
+    printf("\n");
     disassembleInstruction(vm.chunk, (int)(vm.ip-vm.chunk->code));
 #endif
 
@@ -53,15 +60,19 @@ static InterpretResult run()
         //the switch is used to dispatch the instructions in the most simple way
         switch(instruction = READ_BYTE())
         {
-            //case for a runtime result that completed without any error
-            case OP_RETURN: {
+            //case for a runtime result that pops the stacks.
+            {
+                printValue(pop());
+                printf("\n");
                 return INTERPRET_OK;
             }
-            //case for a constant value. prints the value
-            case OP_CONSTANT: {
+            //case for a constant value. pushes the constants into the stack
+            case OP_CONSTANT:
+            {
                 Value constant = READ_CONSTANT();
-                printValue(constant);
-                printf("\n");
+                push(constant);
+                //printValue(constant);
+                //printf("\n");
                 break;
             }
             //the case handles the long constants, creates an array of the bytes and then build it as a value
@@ -70,8 +81,9 @@ static InterpretResult run()
                 //uint32_t constant = READ_CONSTANT_LONG();
                 uint8_t arr[] = {READ_BYTE(), READ_BYTE(), READ_BYTE()};
                 Value constant = READ_CONSTANT_LONG(arr);
-                printValue(constant);
-                printf("'\n");
+                push(constant);
+                //printValue(constant);
+                //printf("'\n");
                 break;
             }
         }
@@ -93,3 +105,4 @@ InterpretResult interpret(Chunk* chunk)
     //returns the interpreted result of running the chunk
     return run();
 }
+
