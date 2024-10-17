@@ -42,12 +42,16 @@ static InterpretResult run()
 #define READ_BYTE() (*vm.ip++)
 #define READ_CONSTANT() (vm.chunk->constants.values[READ_BYTE()])
 #define READ_CONSTANT_LONG(arr)  (vm.chunk->constants.values[(uint32_t)arr[2] << 16 | (uint16_t)arr[1] << 8 | arr[0]])
+
+//a macro to perform binary operations
 #define BINARY_OP(op) \
     do { \
         double b = pop(); \
         double a = pop(); \
         push (a op b); \
         }while(false)
+
+//a check for a debug flag that if present prints the trace
 #ifdef DEBUG_TRACE_EXECUTION
     printf("          ");
     for (Value* slot = vm.stack; slot<vm.stackTop;slot++) {
@@ -98,6 +102,7 @@ static InterpretResult run()
                 //printf("'\n");
                 break;
             }
+            //cases for arithmetic operations
             case OP_ADD: BINARY_OP(+); break;
             case OP_SUBTRACT: BINARY_OP(-); break;
             case OP_MULTIPLY: BINARY_OP(*); break;

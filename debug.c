@@ -15,20 +15,22 @@ void disassembleChunk(Chunk* chunk, const char* name)
     }
 }
 
-/// @brief 
-/// @param chunk 
-/// @param offset 
-/// @return 
+/// @brief disassembles the instruction from the bytecode chunk
+/// @param chunk an uint8_t array that contains the bytecode for the instructions
+/// @param offset the current instruction index
+/// @return the index for the next instruction
 int disassembleInstruction(Chunk* chunk, int offset)
 {
+    //prints the instruction number
     printf("%04d ", offset);
 
+    //prints the line
     if(offset > 0 && getLine(chunk, offset) == getLine(chunk, offset - 1))
         printf("    | ");
     else
         printf("%4d ", getLine(chunk, offset));
 
-
+    //saves the bytecode for the current instruction and switches it to the appropriate debug function
     uint8_t instruction = chunk->code[offset];
     switch(instruction) {
         case OP_CONSTANT:
@@ -80,7 +82,7 @@ int getLine(Chunk* chunk, int offset)
     return chunk->lines[index] / 100;
 }
 
-///
+/// prints the debug for a simple 1 byte instruction
 /// @param name name of the opcode
 /// @param offset the instruction index
 /// @return the new instruction index
@@ -90,7 +92,7 @@ static int simpleInstruction(const char* name, int offset)
     return offset + 1;
 }
 
-///
+/// prints the debug for a 1 byte constant instruction
 /// @param name name of the opcode
 /// @param chunk a pointer to the bytecode chunk
 /// @param offset the instruction index
@@ -104,7 +106,7 @@ static int constantInstruction(const char* name, Chunk* chunk, int offset)
     return offset + 2;
 }
 
-///
+/// prints the debug for a 3 byte constant instruction
 /// @param name name of the operation
 /// @param chunk the bytecode chunk
 /// @param offset the index of the bytecode chunk array

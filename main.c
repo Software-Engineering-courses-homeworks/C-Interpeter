@@ -22,12 +22,13 @@ static void repl() {
     }
 }
 
-/// 
-/// @param path 
+/// the function that opens the file, allocates memory to a string the size of the file and reads it to the string
+/// @param path the file path that needs to be interpreted
 /// @return the content of the file
 static char* readFile(const char* path) {
     FILE* file = fopen(path, "rb");
 
+    //checks if the file was successfully opened
     if(file == NULL) {
         fprintf(stderr, "Could not open file %s\n", path);
         exit(74);
@@ -57,14 +58,20 @@ static char* readFile(const char* path) {
     return buffer;
 }
 
-/// 
+/// the function gets a file path, reads it and interprets it
 /// @param path 
 /// @return will returns exit code if there will be errors (65-for compilation error, 70-for runtime error)
 static char* runFile(const char* path) {
+
+    //opens the file and reads it to a dynamically allocated string
     char* source = readFile(path);
+
+    //interprets the file using the string
     InterpretResult result = interpret(source);
+    //frees the dynamically allocated string
     free(source);
 
+    //exits with the appropriate error code if there was an issue
     if(result == INTERPRET_COMPILE_ERROR)
         exit(65);
     if(result == INTERPRET_RUNTIME_ERROR)

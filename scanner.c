@@ -92,9 +92,13 @@ static Token errorToken(const char* message) {
 
 /// a mini scanner to skip all the whitespaces and new lines with the appropriate updates
 static void skipWhiteSpaces() {
+
+    // a loop to churn through the whitespaces between lexemes
     for(;;) {
+        //looks at the current char without consuming it
         char c = peek();
 
+        //check whether it is a white space or a new line and deals with it appropriately
         switch (c) {
             case ' ':
             case '\r':
@@ -129,7 +133,8 @@ static Token number() {
         //consume the ".".
         advance();
 
-    while (isDigit(peek()))advance();
+        //runs ahead as long as the next character is a digit
+        while (isDigit(peek())) advance();
     }
 
     return makeToken(TOKEN_NUMBER);
@@ -138,11 +143,14 @@ static Token number() {
 /// a function to handle the processing of strings
 /// @return returns a string token at the end of the string scanning
 static Token string() {
+
+    //while the next character isn't a closing quote and there are still characters to scan through, advance
     while(peek() != '"' && !isAtEnd()) {
         if(peek() == '\n') scanner.line++;
         advance();
     }
 
+    //if reached the end of the source code without reaching the closing quote, return an error token
     if(isAtEnd()) return errorToken("Unterminated string");
 
     //the closing quote
