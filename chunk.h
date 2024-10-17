@@ -13,6 +13,7 @@ typedef enum {
   OP_SUBTRACT,
   OP_MULTIPLY,
   OP_DIVIDE,
+  OP_NEGATE,
 } OpCode;
 
 //wrapper around an array of bytes

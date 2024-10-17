@@ -66,6 +66,10 @@ static InterpretResult run()
         //the switch is used to dispatch the instructions in the most simple way
         switch(instruction = READ_BYTE())
         {
+            //the case negates the value in the top of the stacks and pushes it back in
+            case OP_NEGATE:
+                push(-pop());
+                break;
             //case for a runtime result that pops the stacks.
             case OP_RETURN:
             {
