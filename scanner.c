@@ -110,6 +110,21 @@ static void skipWhiteSpaces() {
     }
 }
 
+/// a function to handle the processing of strings
+/// @return returns a string token at the end of the string scanning
+static Token string() {
+    while(peek() != '"' && !isAtEnd()) {
+        if(peek() == '\n') scanner.line++;
+        advance();
+    }
+
+    if(isAtEnd()) return errorToken("Unterminated string");
+
+    //the closing quote
+    advance();
+    return makeToken(TOKEN_STRING);
+}
+
 /// scans the current token
 /// @return returns a token that represent the state of the current char in the scanner.
 Token scanToken() {
