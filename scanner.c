@@ -19,6 +19,13 @@ void initScanner(const char* source) {
     scanner.line = 1;
 }
 
+/// the function gets a character and returns whether it's a digit or not
+/// @param c the current character in the lexeme
+/// @return TRUE - if c is a digit, FALSE - if C isn't a number
+static bool isDigit(char c) {
+    return c >= '0' && c <= '9';
+}
+
 /// checks if the current char is a null byte
 /// @return True if null byte, false if not
 static bool isAtEnd() {
@@ -46,7 +53,7 @@ static char peekNext() {
     return scanner.current[1];
 }
 
-/// the function recives a char and checks if the current char matches it
+/// the function receives a char and checks if the current char matches it
 /// @param expected
 /// @return true if there is a match with expected, false if not
 static bool match(char expected) {
@@ -99,7 +106,7 @@ static void skipWhiteSpaces() {
             case '/':
                 if(peekNext() == '/') {
                     //runs until the end of the comment line
-                    while(peek() != '\n' && !isAtEnd()) advance()
+                    while(peek() != '\n' && !isAtEnd()) advance();
                 }
                 else
                     return;
@@ -128,13 +135,21 @@ static Token string() {
 /// scans the current token
 /// @return returns a token that represent the state of the current char in the scanner.
 Token scanToken() {
+    //first skips all the white spaces before the start of the lexeme
     skipWhiteSpaces();
+    //resets the scanner pointers to the start of the new lexeme
     scanner.start = scanner.current;
 
+    //returns an EOF token if reached the end of the source code
     if(isAtEnd()) return makeToken(TOKEN_EOF);
 
+    //saves the first character in the lexeme to c
     char c = advance();
 
+    //if c is a number, turn it into one
+    if(isDigit(c)) return number();
+
+    //switches the "special" characters that separate between lexemes and aren't whitespaces
     switch(c) {
         case '(': return makeToken(TOKEN_LEFT_PAREN);
         case ')': return makeToken(TOKEN_RIGHT_PAREN);
@@ -153,5 +168,6 @@ Token scanToken() {
         case '>': return makeToken(match('=') ? TOKEN_GREATER_EQUAL : TOKEN_GREATER);
     }
 
+    //returns an error token in case a given character isn't recognized
     return errorToken("Unexpected character.");
 }
