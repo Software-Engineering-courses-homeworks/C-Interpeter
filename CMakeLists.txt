@@ -18,4 +18,6 @@ add_executable(C_Interpeter
         value.c
         vm.h
         vm.c
-        compiler.c)
+        compiler.c
+        scanner.h
+        scanner.c)
