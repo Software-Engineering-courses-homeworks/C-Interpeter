@@ -3,6 +3,8 @@
 #include "common.h"
 #include "scanner.h"
 
+#include <ctype.h>
+
 typedef struct {
     const char* start;
     const char* current;
@@ -110,6 +112,20 @@ static void skipWhiteSpaces() {
     }
 }
 
+static Token number() {
+    while (isDigit(peek())) advance();
+
+    //Look for a fractional part.
+    if (peek() == '.' && isDigit(peekNext())) {
+        //consume the ".".
+        advance();
+
+    while (isDigit(peek()))advance();
+    }
+
+    return makeToken(TOKEN_NUMBER);
+}
+
 /// a function to handle the processing of strings
 /// @return returns a string token at the end of the string scanning
 static Token string() {
@@ -151,6 +167,7 @@ Token scanToken() {
         case '=': return makeToken(match('=') ? TOKEN_EQUAL_EQUAL : TOKEN_EQUAL);
         case '<': return makeToken(match('=') ? TOKEN_LESS_EQUAL : TOKEN_LESS);
         case '>': return makeToken(match('=') ? TOKEN_GREATER_EQUAL : TOKEN_GREATER);
+        case '"': return string();
     }
 
     return errorToken("Unexpected character.");
