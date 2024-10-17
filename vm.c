@@ -1,5 +1,6 @@
 #include "common.h"
 #include "vm.h"
+#include "debug.h"
 
 VM vm;
 
@@ -21,6 +22,9 @@ static InterpretResult run()
 {
 #define READ_BYTE() (*vm.ip++)
 #define READ_CONSTANT() (vm.chunk->constants.values[READ_BYTE()])
+#ifdef DEBUG_TRACE_EXECUTION
+    disassembleInstruction(vm.chunk, (int)(vm.ip-vm.chunk->code));
+#endif
 
     //runs through all the instructions in the chunk and returns the runtime result from the interpretation
     for(;;)

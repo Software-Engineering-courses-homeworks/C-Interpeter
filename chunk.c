@@ -82,13 +82,13 @@ void writeConstant(Chunk* chunk, Value value, int line)
     int constant = addConstant(chunk,value);
 
     //checks which instruction needs to be used for the constant to save memory while it can
-    //by checking if the returned index can fit in a uint_8 and if so, add it using the OP_CONSTANT opcode
+    //by checking if the returned index can fit in an uint_8 and if so, add it using the OP_CONSTANT opcode
     if(constant <= UINT8_MAX)
     {
         writeChunk(chunk, OP_CONSTANT, line);
         writeChunk(chunk,constant, line);
     }
-    //if the constant can't fit in a uint8_t, add it to the chunk using the OP_CONSTANT_LONG opcode
+    //if the constant can't fit in an uint8_t, add it to the chunk using the OP_CONSTANT_LONG opcode
     else
     {
         //writes the instruction opcode to the chunk
