@@ -2,10 +2,15 @@
 #define CLOX_VM_H
 
 #include "chunk.h"
+#include "value.h"
+
+#define STACK_MAX 256
 
 typedef struct {
     Chunk* chunk;
     uint8_t* ip;
+    Value stack[STACK_MAX];
+    Value* stackTop;
 } VM;
 
 typedef enum {
@@ -25,4 +30,11 @@ void freeVM();
 /// @return the interpreted result of the given chunk
 InterpretResult interpret(Chunk* chunk);
 
+/// pushes a value onto the VM stack
+/// @param val the value that needs to be pushed
+void push(Value val);
+
+/// pops the top value from the VM stack
+/// @return the top value in the stack
+Value pop();
 #endif //CLOX_VM_H
