@@ -25,6 +25,39 @@ static bool isAtEnd() {
     return *scanner.current == '\0';
 }
 
+/// the function returns the next character
+/// @return the next character
+static char advance() {
+    scanner.current++;
+    return scanner.current[-1];
+}
+
+/// the function returns the current char without consuming it
+/// @return the next char in the scanner
+static char peek() {
+    return *scanner.current;
+}
+
+/// the function returns the next current after the current one but not consuming it
+/// @return the next char in the scanner
+static char peekNext() {
+    //checks if we are at the end of the scanner
+    if(isAtEnd()) return '\0';
+    return scanner.current[1];
+}
+
+/// the function recives a char and checks if the current char matches it
+/// @param expected
+/// @return true if there is a match with expected, false if not
+static bool match(char expected) {
+    //checks if we reached the end of the string
+    if (isAtEnd()) return false;
+    //checks if they not the same
+    if (*scanner.current != expected) return false;
+    scanner.current++;
+    return true;
+}
+
 /// the function receives a token type and returns a new token
 /// @param type
 /// @return a new token that represents the type that was received
