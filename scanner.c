@@ -32,6 +32,20 @@ static char advance() {
     return scanner.current[-1];
 }
 
+/// the function returns the current char without consuming it
+/// @return the next char in the scanner
+static char peek() {
+    return *scanner.current;
+}
+
+/// the function returns the next current after the current one but not consuming it
+/// @return the next char in the scanner
+static char peekNext() {
+    //checks if we are at the end of the scanner
+    if(isAtEnd()) return '\0';
+    return scanner.current[1];
+}
+
 /// the function recives a char and checks if the current char matches it
 /// @param expected
 /// @return true if there is a match with expected, false if not
